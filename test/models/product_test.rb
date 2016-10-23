@@ -72,5 +72,18 @@ class ProductTest < ActiveSupport::TestCase
                  product.errors[:title]
   end
 
+  test 'product should be invalid if length incorrect' do
+    product = Product.new(title: '1234',
+                          description: "yyy",
+                          price:       1,
+                          image_url:   "fred.gif")
+    assert product.invalid?
+    product.title = '123456'
+    assert product.valid?
+    product.title = '12345678'
+    assert product.valid?
+    product.title = 'a'*81
+    assert product.invalid?
+  end
 
 end
