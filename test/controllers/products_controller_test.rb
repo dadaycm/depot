@@ -11,6 +11,11 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
+  test 'links number should be 3' do
+    get products_url
+    assert_select('#main', 1)
+  end
+
   test "should get index" do
     get products_url
     assert_response :success
