@@ -1,3 +1,3 @@
 class Cart < ApplicationRecord
-  has_many :lineItems, dependent: :destroy
+  has_many :line_items, dependent: :destroy
 end

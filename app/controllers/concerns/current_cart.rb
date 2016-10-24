@@ -1,5 +1,5 @@
 module CurrentCart
-  private:
+  private
 
     def set_cart
       @cart = Cart.find(session[ :cart_id ])
