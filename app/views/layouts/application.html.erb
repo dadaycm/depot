@@ -20,6 +20,15 @@
         <li><a href="http://www..../news">News</a></li>
         <li><a href="http://www..../contact">Contact</a></li>
       </ul>
+      <p>
+        <%= Time.now.strftime("%Y-%m-%d %H:%M:%S")  %>
+      </p>
+      <p>
+        <%= l @date_loaded, :format => :short %>
+      </p>
+      <p>
+        <%= @string_now %>
+      </p>
     </div>
     <div id="main">
       <%= yield %>
