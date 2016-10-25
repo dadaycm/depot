@@ -16,6 +16,21 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should include actions from index' do
+    get products_url
+
+    assert_select 'a', 'New Product'
+    assert_select '.list_actions', minimum:3
+
+    actions = css_select(".list_actions")
+    actions.each do |action|
+      assert_select 'a', 'Show'
+      assert_select 'a', 'Destroy'
+      assert_select 'a', 'Edit'
+    end
+
+  end
+
   test "should get new" do
     get new_product_url
     assert_response :success
