@@ -1,6 +1,10 @@
-<% if line_item == @current_item %>
-<tr id='current_item'></tr>
+<% logger.error "[line_item=]#{line_item.inspect}"  %>
+<% logger.error "[at current_item=]#{@current_item.inspect}" %>
+<% if line_item.id == @current_item.id %>
+<tr id='current_item'>
+<% logger.error "[lhy=]match" %>
 <% else %>
+<% logger.error "[lhy=]NO match" %>
 <tr>
 <% end %>
   <td><%= line_item.quantity %>&times;</td>
