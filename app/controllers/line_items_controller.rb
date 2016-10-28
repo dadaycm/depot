@@ -1,5 +1,6 @@
 class LineItemsController < ApplicationController
   include CurrentCart
+  include LineItemsHelper
   before_action :set_cart, only: [:create]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
@@ -62,10 +63,12 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1
   # DELETE /line_items/1.json
   def destroy
+    store_location
     @line_item.destroy
     respond_to do |format|
       # format.html { redirect_to cart_url(session[:cart_id]) }
-      format.html { redirect_to :back }
+      format.html { redirect_back_or  line_items_url }
+
       format.json { head :no_content }
     end
   end
