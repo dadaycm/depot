@@ -22,3 +22,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+It sounds like that, I didn't do anything, but now rails t PASSED! beforehand,
+browser works well but rails t FAILS with lots of errors:
+can't find jquery.ui.effect-blind
