@@ -50,4 +50,29 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to line_items_url
   end
+
+  test 'should minus 1 for quantity >1' do
+    @line_item.quantity = 3
+    @line_item.save
+
+    # p "[before minus:] #{@line_item.inspect}"
+    assert_difference('@line_item.quantity' , -1) do
+      put minus_line_item_path(@line_item)
+      @line_item.reload
+    end
+
+    assert_redirected_to line_items_url
+
+    item = @line_item
+    # p "[after minus:] #{item.inspect}" unless item.nil?
+    assert_equal item.quantity, 2
+  end
+
+  test 'should destroy when minus one with quantity 1' do
+    assert_difference('LineItem.count', -1) do
+      put minus_line_item_path(@line_item)
+    end
+    assert_redirected_to line_items_url
+  end
+
 end

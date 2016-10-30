@@ -8,6 +8,10 @@
       <td><%= item.product.title %></td>
       <td class='item_price'><%= number_to_currency(item.total_price) %></td>
       <td> <%= link_to 'delete', item, method: :delete %> </td>
+
+      <td> <%= link_to   'minus_link',   minus_line_item_path(item), method: :put %> </td>
+      <td> <%= button_to 'Minus Button', minus_line_item_path(item), method: :put %></td>
+
     </tr>
   <% end %>
 
