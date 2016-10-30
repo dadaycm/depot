@@ -1,7 +1,7 @@
 class LineItemsController < ApplicationController
   include CurrentCart
   include LineItemsHelper
-  before_action :set_cart, only: [:create]
+  before_action :set_cart, only: [:create, :minus]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy, :minus]
 
   # GET /line_items
@@ -77,6 +77,7 @@ class LineItemsController < ApplicationController
     respond_to do |format|
       if @line_item.save
         format.html { redirect_back_or line_items_url }
+        format.js { @current_item = @line_item }
         format.json { render :show, status: :ok, location: @line_item }
       else
         format.html { render :show }
