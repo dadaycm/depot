@@ -1,5 +1,5 @@
-if ($('#cart tr').length ==0) { $('#cart').hide('blind',2000); }
-
 $('#cart').html("<%=j render(@cart) %>");
 
 $('#current_item').css({'background-color':'#88ff88'}).animate({'background-color':'#114411'}, 2000);
+
+if ($('#cart tr').length ==1) { $('#cart').hide('blind',2000); }

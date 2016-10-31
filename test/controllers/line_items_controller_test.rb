@@ -1,4 +1,5 @@
 require 'test_helper'
+include CurrentCart
 
 class LineItemsControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -76,6 +77,21 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     assert_equal item.quantity, 2
   end
 
+  test 'should minus 1 for quantity >1 via ajax' do
+    @line_item.quantity = 3
+    @line_item.save
+
+    assert_difference('@line_item.quantity' , -1) do
+      put minus_line_item_path(@line_item), xhr:true
+      @line_item.reload
+    end
+
+    assert_response :success
+
+    item = @line_item
+    assert_equal item.quantity, 2
+  end
+
   test 'should destroy when minus one with quantity 1' do
     assert_difference('LineItem.count', -1) do
       put minus_line_item_path(@line_item)
@@ -83,4 +99,40 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to line_items_url
   end
 
+  test 'should empty cart when last line item is minused to 0' do
+    # set_cart
+    get store_index_url
+
+    @line_item.quantity = 3
+    @line_item.save
+    put minus_line_item_path(@line_item)
+    follow_redirect!
+
+    @line_item.reload
+    assert_equal @line_item.quantity, 2
+
+    assert_select "#columns #side #cart", 1
+
+    put minus_line_item_path(@line_item)
+    put minus_line_item_path(@line_item)
+    # @line_item.reload
+    # assert_equal @line_item.quantity, 0
+
+    follow_redirect!
+    assert_select "#columns #side #cart" do |element|
+      puts "element:"
+      puts element.inspect
+      puts "children:"
+      puts element.children.inspect
+      puts "id:"
+      puts element.attr("id").inspect
+      puts "style:"
+      puts element.attr("style").inspect
+      puts "h2:"
+      puts element.attr("h2").inspect
+      # assert_equal element.attr("h2"), "Your Cart"
+      # assert_equal element.attr("style"), "display: none;"
+    end
+
+  end
 end
