@@ -75,7 +75,7 @@ class LineItemsController < ApplicationController
     store_location
     @line_item.minus
     respond_to do |format|
-      if @line_item.save
+      if @line_item.save  # really still exists???
         format.html { redirect_back_or line_items_url }
         format.js { @current_item = @line_item }
         format.json { render :show, status: :ok, location: @line_item }
