@@ -3,7 +3,6 @@ include CurrentCart
 
 class LineItemsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @cart = carts(:one)
     @line_item = line_items(:one)
   end
 
@@ -60,93 +59,4 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to line_items_url
   end
 
-  test 'should minus 1 for quantity >1' do
-    @line_item.quantity = 3
-    @line_item.save
-
-    # p "[before minus:] #{@line_item.inspect}"
-    assert_difference('@line_item.quantity' , -1) do
-      put minus_line_item_path(@line_item)
-      @line_item.reload
-    end
-
-    assert_redirected_to line_items_url
-
-    item = @line_item
-    # p "[after minus:] #{item.inspect}" unless item.nil?
-    assert_equal item.quantity, 2
-  end
-
-  test 'should minus 1 for quantity >1 via ajax' do
-    # set_cart
-    @line_item.quantity = 3
-    @line_item.save
-
-    assert_difference('@line_item.quantity' , -1) do
-      put minus_line_item_path(@line_item), xhr:true
-      @line_item.reload
-    end
-
-    # assert_response :success
-    # assert_select_jquery :html, '#cart' do
-    #   assert_select 'tr#current_item td', /My String/
-    # end
-    item = @line_item
-    assert_equal item.quantity, 2
-
-    # mycart = css_select("#cart")
-    # puts "length of mycart=#{mycart.length}"
-    # mycart.each do |c|
-    #   p c
-    #   tr = css_select(c, "tr")
-    #   p tr
-    #   logger.debug("[tr=]#{tr}")
-    #   assert_select 'tr#current_item td', '2'
-    #   assert_select 'tr#current_item td', ''
-    #
-    # end
-
-  end
-
-  test 'should destroy when minus one with quantity 1' do
-    assert_difference('LineItem.count', -1) do
-      put minus_line_item_path(@line_item)
-    end
-    assert_redirected_to line_items_url
-  end
-
-  test 'should empty cart when last line item is minused to 0' do
-    # set_cart
-    get store_index_url
-
-    @line_item.quantity = 3
-    @line_item.save
-    put minus_line_item_path(@line_item)
-    follow_redirect!
-
-    @line_item.reload
-    assert_equal @line_item.quantity, 2
-
-    assert_select "#columns > #side > #cart"
-    carts=css_select "#columns > #side > #cart"
-    puts "\nquantity=2 : carts.length=#{carts.length}"
-    p carts
-
-    put minus_line_item_path(@line_item)
-    put minus_line_item_path(@line_item)
-    # @line_item.reload
-    # assert_equal @line_item.quantity, 0
-
-    follow_redirect!
-
-    # assert_select "#columns #side #cart [style=?]", "display: none;", count:1
-    # assert_select "div[id=cart][style=?]", ".display: none;", count:1
-    # assert_select "div[id=cart][style*=?]", "display", count:1
-
-    assert_select "#columns > #side > #cart"
-    carts=css_select "#columns > #side > #cart"
-    puts "\nquantity=0 : carts.length=#{carts.length}"
-    p carts
-
-  end
 end
