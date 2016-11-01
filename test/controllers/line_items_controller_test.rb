@@ -28,8 +28,7 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create line_item via ajax" do
     assert_difference('LineItem.count') do
-      post line_items_url, params: { product_id: products(:ruby).id },
-          xhr:true
+      post line_items_url, params: { product_id: products(:ruby).id },  xhr:true
     end
     assert_response :success
     assert_select_jquery :html, '#cart' do
