@@ -1,7 +1,14 @@
+#---
+# Excerpted from "Agile Web Development with Rails 5",
+# published by The Pragmatic Bookshelf.
+# Copyrights apply to this code. It may not be used to create training material,
+# courses, books, articles, and the like. Contact us if you are in doubt.
+# We make no guarantees that this code is fit for any purpose.
+# Visit http://www.pragmaticprogrammer.com/titles/rails5 for more book information.
+#---
 class CartsController < ApplicationController
   before_action :set_cart, only: [:show, :edit, :update, :destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
-
   # GET /carts
   # GET /carts.json
   def index
@@ -57,15 +64,16 @@ class CartsController < ApplicationController
   def destroy
     @cart.destroy if @cart.id == session[:cart_id]
     session[:cart_id] = nil
-
     respond_to do |format|
       format.html { redirect_to store_index_url }
       format.json { head :no_content }
     end
   end
 
+  # ...
   private
-    # Use callbacks to share common setup or constraints between actions.
+  # ...
+
     def set_cart
       @cart = Cart.find(params[:id])
     end
@@ -74,9 +82,8 @@ class CartsController < ApplicationController
     def cart_params
       params.fetch(:cart, {})
     end
-
     def invalid_cart
       logger.error "Attempt to access invalid cart #{params[:id]}"
-      redirect_to store_index_url, notice: 'Invalid Cart'
+      redirect_to store_index_url, notice: 'Invalid cart'
     end
 end
