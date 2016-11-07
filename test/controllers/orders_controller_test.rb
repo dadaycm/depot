@@ -1,3 +1,11 @@
+#---
+# Excerpted from "Agile Web Development with Rails 5",
+# published by The Pragmatic Bookshelf.
+# Copyrights apply to this code. It may not be used to create training material,
+# courses, books, articles, and the like. Contact us if you are in doubt.
+# We make no guarantees that this code is fit for any purpose.
+# Visit http://www.pragmaticprogrammer.com/titles/rails5 for more book information.
+#---
 require 'test_helper'
 
 class OrdersControllerTest < ActionDispatch::IntegrationTest
@@ -5,15 +13,15 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     @order = orders(:one)
   end
 
+  test "should get index" do
+    get orders_url
+    assert_response :success
+  end
+
   test "requires item in cart" do
     get new_order_url
     assert_redirected_to store_index_path
     assert_equal flash[:notice], 'Your cart is empty'
-  end
-
-  test "should get index" do
-    get orders_url
-    assert_response :success
   end
 
   test "should get new" do
@@ -25,10 +33,12 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create order" do
     assert_difference('Order.count') do
-      post orders_url, params: { order: { address: @order.address, email: @order.email, name: @order.name, pay_type: @order.pay_type } }
+      post orders_url, params: { order: { address: @order.address,
+        email: @order.email, name: @order.name,
+        pay_type: @order.pay_type } }
     end
 
-    assert_redirected_to order_url(Order.last)
+    assert_redirected_to store_index_url
   end
 
   test "should show order" do
