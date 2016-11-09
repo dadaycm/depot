@@ -1,8 +1,14 @@
+#---
+# Excerpted from "Agile Web Development with Rails 5",
+# published by The Pragmatic Bookshelf.
+# Copyrights apply to this code. It may not be used to create training material,
+# courses, books, articles, and the like. Contact us if you are in doubt.
+# We make no guarantees that this code is fit for any purpose.
+# Visit http://www.pragmaticprogrammer.com/titles/rails5 for more book information.
+#---
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
-  # fixtures :products
-
   test "product attributes must not be empty" do
     product = Product.new
     assert product.invalid?
@@ -23,10 +29,10 @@ class ProductTest < ActiveSupport::TestCase
 
     product.price = 0
     assert product.invalid?
-    assert_equal ["must be greater than or equal to 0.01"],
+    assert_equal ["must be greater than or equal to 0.01"], 
       product.errors[:price]
 
-    product.price = 10
+    product.price = 1
     assert product.valid?
   end
 
@@ -53,8 +59,8 @@ class ProductTest < ActiveSupport::TestCase
 
   test "product is not valid without a unique title" do
     product = Product.new(title:       products(:ruby).title,
-                          description: "yyy",
-                          price:       1,
+                          description: "yyy", 
+                          price:       1, 
                           image_url:   "fred.gif")
 
     assert product.invalid?
@@ -63,8 +69,8 @@ class ProductTest < ActiveSupport::TestCase
 
   test "product is not valid without a unique title - i18n" do
     product = Product.new(title:       products(:ruby).title,
-                          description: "yyy",
-                          price:       1,
+                          description: "yyy", 
+                          price:       1, 
                           image_url:   "fred.gif")
 
     assert product.invalid?

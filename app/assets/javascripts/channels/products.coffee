@@ -6,4 +6,4 @@ App.products = App.cable.subscriptions.create "ProductsChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    $(".store #main").html( data.html )
+    $(".store #main").html(data.html)

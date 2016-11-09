@@ -4,6 +4,7 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+# START:files
 # Ignore bundler config.
 /.bundle
 
@@ -19,3 +20,4 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+# END:files

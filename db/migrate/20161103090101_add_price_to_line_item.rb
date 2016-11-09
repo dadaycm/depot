@@ -6,7 +6,11 @@
 # We make no guarantees that this code is fit for any purpose.
 # Visit http://www.pragmaticprogrammer.com/titles/rails5 for more book information.
 #---
-class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
-  layout 'mailer'
+class AddPriceToLineItem < ActiveRecord::Migration[5.0]
+  def change
+    add_column :line_items, :price, :decimal
+    LineItem.all.each do |li|
+      li.price = li.product.price
+    end
+  end
 end
